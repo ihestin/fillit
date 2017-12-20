@@ -6,26 +6,28 @@
 /*   By: ihestin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 11:24:50 by ihestin           #+#    #+#             */
-/*   Updated: 2017/12/15 14:39:58 by ihestin          ###   ########.fr       */
+/*   Updated: 2017/12/19 17:33:18 by ihestin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <unistd.h>
 #include "fillit.h"
 
 void	err_msg(int i)
 {
 	if (i == 0)
 	{
-		printf ("\n");
-		exit(1);
+		write (1, "\n", 1);
+		exit(0);
 	}
 	if (i == 1)
 	{
-		printf ("usage : ./fillit source_file\n");
+		write (1, "usage: ./fillit source_file\n", 28);
 		exit(1);
 	}
-	printf ("error\n");
-	exit (2);
+	write (1, "error\n", 6);
+	exit(2);
 }
 
 int		main(int argc, char *argv[])
@@ -45,7 +47,7 @@ int		main(int argc, char *argv[])
 	if (nbr[0] <= 0)
 		err_msg (-nbr[0]);
 /* On calcul la taille du carre minimal, le carre pourra etre augmente a cause de la forme de certaine piece*/
-	cal_si(nbr, tet, deftet);
+	cal_si(nbr, deftet, tet);
 /* On cheche une solution pour le minimum et on recommece avec +1 tant que lon ne trouve pas*/
 	ret = 1;
 	while (ret == 1)

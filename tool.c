@@ -6,10 +6,11 @@
 /*   By: ihestin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 13:09:26 by ihestin           #+#    #+#             */
-/*   Updated: 2017/12/15 14:40:08 by ihestin          ###   ########.fr       */
+/*   Updated: 2017/12/20 16:35:51 by ihestin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "fillit.h"
 
 /**************************************************************************** */
@@ -23,9 +24,58 @@
 /*																   #		  */
 /**************************************************************************** */
 
-void	ft_init(t_deftet dtet)
+void	ft_init(t_deftet *dtet)
 {
-	int		ti[19];
+	int		i;
+	int		j;
+	int		ti[19] = {291, 292, 293, 294, 1110, 5206, 9302, 342, 4677, 325, 1113, 5208, 328, 1112, 1161, 345, 5209, 5513, 1164};
 
-	ti = {}
+	i = -1;
+	while (++i < 18)
+	{
+		dtet[i].pos = ti[i];
+		j = 0;
+		dtet[i].t[0] = 0;
+nt		while (++j < 26)
+			dtet[i].t[j] = -1;
+	}
 }
+
+void 	cal_si(int *nbr, t_deftet *d, t_tet *t)
+{
+	int	i;
+	int	j;
+
+	i = 4*nbr[0];
+	j = 1;
+	while(j * j < i)
+		j++;
+	if (d || t)
+		;
+	nbr[1] = j;
+}
+
+void	g_init(t_gril g, int *nbr)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < nbr[1])
+	{
+		j = -1;
+		while (++j < nbr[1])
+			g[i][j] = '.';
+		g[i][j] = '\n';
+	}
+}
+
+void	affiche(t_gril g, int *nbr)
+{
+	int		i;
+
+	i = -1;
+	while (++i < nbr[1])
+		write(1, g[i], nbr[1]+1);
+}
+
