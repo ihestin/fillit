@@ -6,7 +6,7 @@
 /*   By: ihestin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 11:24:50 by ihestin           #+#    #+#             */
-/*   Updated: 2017/12/19 17:33:18 by ihestin          ###   ########.fr       */
+/*   Updated: 2017/12/21 17:49:38 by ihestin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		main(int argc, char *argv[])
 	t_gril		grille;
 	t_deftet	deftet[19];
 	t_tet		tet[27];
-	int			nbr[4];
+	int			nbr[NB_SIZE];
 	int			ret;
 
 	if (argc != 2)
@@ -60,7 +60,7 @@ int		main(int argc, char *argv[])
 			(nbr[1])++;
 	}
 	if (ret != 0)
-		err_msg (7);
+		err_msg (4);
 /* On affiche la grille*/
 	affiche(grille, nbr);
 	return(0);

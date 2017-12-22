@@ -6,12 +6,14 @@
 /*   By: ihestin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 10:05:14 by ihestin           #+#    #+#             */
-/*   Updated: 2017/12/20 16:58:33 by ihestin          ###   ########.fr       */
+/*   Updated: 2017/12/21 17:29:17 by ihestin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
+
+#define NB_SIZE 4
 
 typedef	char	t_gril[20][20];
 typedef	int		t_tet;
