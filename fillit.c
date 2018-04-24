@@ -6,7 +6,7 @@
 /*   By: ihestin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 11:24:50 by ihestin           #+#    #+#             */
-/*   Updated: 2017/12/21 17:49:38 by ihestin          ###   ########.fr       */
+/*   Updated: 2018/01/29 18:47:25 by ihestin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,61 @@
 #include <unistd.h>
 #include "fillit.h"
 
-void	err_msg(int i)
+t_deftet	g_tabinfo[19] = {{547, 0, 0, 3, 2, {0, 1, 17, 33}, 0},
+	{23, 0, 0, 2, 3, {0, 1, 2, 16}, 0}, {785, 0, 0, 3, 2, {0, 16, 32, 33}, 0},
+	{116, 0, 0, 2, 3, {2, 16, 17, 18}, 0},
+	{275, 0, 0, 3, 2, {0, 1, 16, 32}, 0},
+	{113, 0, 0, 2, 3, {0, 16, 17, 18}, 0},
+	{802, 0, 0, 3, 2, {1, 17, 32, 33}, 0}, {71, 0, 0, 2, 3, {0, 1, 2, 18}, 0},
+	{305, 0, 1, 3, 2, {0, 16, 17, 32}, 0},
+	{114, 0, 1, 2, 3, {1, 16, 17, 18}, 0},
+	{562, 0, 1, 3, 2, {1, 16, 17, 33}, 0}, {39, 0, 1, 2, 3, {0, 1, 2, 17}, 0},
+	{561, 0, 2, 3, 2, {0, 16, 17, 33}, 0}, {54, 0, 2, 2, 3, {1, 2, 16, 17}, 0},
+	{306, 0, 2, 3, 2, {1, 16, 17, 32}, 0}, {99, 0, 2, 2, 3, {0, 1, 17, 18}, 0},
+	{4369, 0, 3, 4, 1, {0, 16, 32, 48}, 0}, {15, 0, 3, 1, 4, {0, 1, 2, 3}, 0},
+	{51, 0, 4, 2, 2, {0, 1, 16, 17}, 0}};
+
+void	exit_msg(int i)
 {
 	if (i == 0)
 	{
-		write (1, "\n", 1);
-		exit(0);
+		write(1, "error\n", 6);
+		exit(EXIT_SUCCESS);
 	}
 	if (i == 1)
 	{
-		write (1, "usage: ./fillit source_file\n", 28);
-		exit(1);
+		write(1, "usage: ./fillit source_file\n", 28);
+		exit(EXIT_FAILURE);
 	}
-	write (1, "error\n", 6);
-	exit(2);
+	write(1, "error\n", 6);
+	exit(EXIT_FAILURE);
 }
 
 int		main(int argc, char *argv[])
 {
+	t_tt		tet[27];
 	t_gril		grille;
-	t_deftet	deftet[19];
-	t_tet		tet[27];
-	int			nbr[NB_SIZE];
 	int			ret;
+	int			i;
 
 	if (argc != 2)
-		err_msg (1);
-/* on initialise le tableau contenant les 19 formes de tetriminos possible */
-	ft_init(deftet);
-/* On lit le fichier et on remplit tet, nbr est le nombre de tetriminos trouve*/
-	nbr[0] = read_fic(argv[1], deftet, tet);
-	if (nbr[0] <= 0)
-		err_msg (-nbr[0]);
-/* On calcul la taille du carre minimal, le carre pourra etre augmente a cause de la forme de certaine piece*/
-	cal_si(nbr, deftet, tet);
-/* On cheche une solution pour le minimum et on recommece avec +1 tant que lon ne trouve pas*/
+		exit_msg(1);
+	ft_init();
+	read_fic(argv[1], tet);
+	cal_si(tet);
 	ret = 1;
+	i = tet[26][1];
 	while (ret == 1)
 	{
-/* on initalise la grille */
-		g_init(grille,nbr);
-/* on essaie de resoudre */
-		ret = resolve(grille,deftet,tet,nbr);
+		g_init(grille, tet[26][1]);
+		ret = resolve(grille, tet);
 		if (ret == 1)
-			(nbr[1])++;
+			(tet[26][1])++;
 	}
+	if (i != tet[26][1])
+		;
 	if (ret != 0)
-		err_msg (4);
-/* On affiche la grille*/
-	affiche(grille, nbr);
-	return(0);
+		exit_msg(4);
+	affiche(tet);
+	return (0);
 }

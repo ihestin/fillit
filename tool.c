@@ -5,77 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihestin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/15 13:09:26 by ihestin           #+#    #+#             */
-/*   Updated: 2017/12/20 16:35:51 by ihestin          ###   ########.fr       */
+/*   Created: 2018/01/24 10:12:40 by ihestin           #+#    #+#             */
+/*   Updated: 2018/01/30 11:34:34 by ihestin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "fillit.h"
 
-/**************************************************************************** */
-/*			Les 19 pieces possibles											  */
-/*	0 ####	1 ###	2 ###	3 ###	4 #  	5  # 	6   #	7 ##	8  ##	  */
-/*	 		  #		   #		#	  ###	  ###	  ###	   ##	  ##	  */
-/*																			  */
-/*	9 ##  10 #  11  #   12 ## 13 #  14 #  15 ##  16  # 17  # 	18 #		  */
-/*	  ##     ##    ##      #     ##    #      #     ##     #       #		  */
-/*			  #    #       #     #     ##     #      #    ##       #		  */
-/*																   #		  */
-/**************************************************************************** */
-
-void	ft_init(t_deftet *dtet)
+void	cal_si(t_tt *t)
 {
 	int		i;
 	int		j;
-	int		ti[19] = {291, 292, 293, 294, 1110, 5206, 9302, 342, 4677, 325, 1113, 5208, 328, 1112, 1161, 345, 5209, 5513, 1164};
 
-	i = -1;
-	while (++i < 18)
-	{
-		dtet[i].pos = ti[i];
-		j = 0;
-		dtet[i].t[0] = 0;
-nt		while (++j < 26)
-			dtet[i].t[j] = -1;
-	}
-}
-
-void 	cal_si(int *nbr, t_deftet *d, t_tet *t)
-{
-	int	i;
-	int	j;
-
-	i = 4*nbr[0];
+	i = 4 * t[26][0];
 	j = 1;
-	while(j * j < i)
+	while (j * j < i)
 		j++;
-	if (d || t)
-		;
-	nbr[1] = j;
+	t[26][1] = j;
+	resize(t);
 }
 
-void	g_init(t_gril g, int *nbr)
+void	affiche(t_tt *t)
 {
+	char	buffer[250];
 	int		i;
 	int		j;
+	int		cot;
+	int		nb;
 
+	cot = t[26][1];
 	i = -1;
-	while (++i < nbr[1])
+	while (++i < cot * (cot + 1))
+		buffer[i] = (i % (cot + 1) == cot) ? '\n' : '.';
+	i = -1;
+	while (++i < t[26][0])
 	{
 		j = -1;
-		while (++j < nbr[1])
-			g[i][j] = '.';
-		g[i][j] = '\n';
+		while (++j < 4)
+		{
+			nb = t[i][2] + g_tabinfo[t[i][0]].coord[j];
+			nb = (nb >> 4) * (cot + 1) + (nb & 15);
+			buffer[nb] = 'A' + i;
+		}
 	}
+	write(1, buffer, cot * (cot + 1));
 }
-
-void	affiche(t_gril g, int *nbr)
-{
-	int		i;
-
-	i = -1;
-	while (++i < nbr[1])
-		write(1, g[i], nbr[1]+1);
-}
-
